@@ -36,10 +36,20 @@ jobs:
         run: |
           mlflow run MLproject --env-manager=local
 
+      - name: Set up Git LFS
+        run: |
+          git config --global user.name "${{ secrets.GIT_USERNAME }}"
+          git config --global user.email "${{ secrets.GIT_EMAIL }}"
+          git lfs install
+          git lfs track "mlruns/**"
+          git add .gitattributes
+          git commit -m "Track large files in mlruns with Git LFS" || true
+          git push origin main
+
       - name: Save mlruns to repo
         run: |
           git config --global user.name "${{ secrets.GIT_USERNAME }}"
           git config --global user.email "${{ secrets.GIT_EMAIL }}"
-          git add mlruns/
+          git add -f mlruns/
           git commit -m "Save mlruns from CI run"
-          git push origin master
+          git push origin main
