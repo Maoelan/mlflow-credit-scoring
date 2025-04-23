@@ -53,3 +53,5 @@ jobs:
           git add -f mlruns/
           git commit -m "Save mlruns from CI run" || true
           git push https://x-access-token:${{ secrets.GIT__TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
+
+      #update
