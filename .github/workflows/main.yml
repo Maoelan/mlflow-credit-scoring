@@ -38,7 +38,7 @@ jobs:
 
       - name: Run mlflow project
         run: |
-          mlflow run MLproject --env-manager=local
+          mlflow run MLproject --env-manager=local -P experiment_name="CI-Run-$(date +%s)"
 
       - name: Set up Git LFS
         run: |
