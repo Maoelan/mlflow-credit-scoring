@@ -4,7 +4,6 @@ from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
-# Load credentials
 creds = json.loads(os.environ["GDRIVE_CREDENTIALS"])
 credentials = Credentials.from_service_account_info(
     creds,
