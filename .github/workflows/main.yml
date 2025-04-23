@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  CSV_URL: "MLproject/train_pca.csv"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python 3.12.7
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12.7"
+
+      - name: Check Env
+        run: |
+          echo $CSV_URL
+
+      - name: Install dependencies
+        run: |
+          mlflow run MLproject --env-manager=local
+
+      - name: Save mlruns to repo
+        run: |
+          git config --global user.name "${{ secrets.GIT_USERNAME }}"
+          git config --global user.email "${{ secrets.GIT_EMAIL }}"
+          git add mlruns/
+          git commit -m "Save mlruns from CI run"
+          git push origin master
