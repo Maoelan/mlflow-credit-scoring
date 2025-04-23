@@ -44,7 +44,7 @@ jobs:
           git lfs track "mlruns/**"
           git add .gitattributes
           git commit -m "Track large files in mlruns with Git LFS" || true
-          git push origin main
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
 
       - name: Save mlruns to repo
         run: |
@@ -52,4 +52,4 @@ jobs:
           git config --global user.email "${{ secrets.GIT_EMAIL }}"
           git add -f mlruns/
           git commit -m "Save mlruns from CI run" || true
-          git push origin main
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
