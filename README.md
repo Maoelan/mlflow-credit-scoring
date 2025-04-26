@@ -65,4 +65,4 @@ Once these steps are applied, your CI workflow should be able to push to GitHub 
 ---
 
 ### Important Notes:
-- **Don't forget to change the permissions on the Google Drive folder** to allow the service account or user to have Editor access.
+- **DON'T FORGET TO CHANGE THE PERMISSIONS ON THE GOOGLE DRIVE FOLDER TO ALLOW THE SERVICE ACCOUNT OR USER TO HAVE EDITOR ACCESS.**
