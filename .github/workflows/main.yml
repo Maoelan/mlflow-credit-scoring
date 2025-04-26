@@ -69,5 +69,3 @@ jobs:
           GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
         run: |
           python MLproject/upload_to_gdrive.py
-
-         
