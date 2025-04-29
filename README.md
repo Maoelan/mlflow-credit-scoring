@@ -1,40 +1,65 @@
-### CI Workflow Details:
+# Credit Scoring MLflow Project
 
-- **Name**: CI
-- **Workflow File**: [main.yml](https://github.com/Maoelan/mlflow-credit-scoring/blob/main/.github/workflows/main.yml)
-- **Trigger Events**:
-  - `push`
-  - `pull_request`
-- **Job Environment**: Runs on Ubuntu
+## CI Workflow Details
 
----
-
-### Workflow Steps:
-1. Set up Python 3.12.7
-2. Check environment variables
-3. Install dependencies
-4. Clean `mlruns` directory
-5. Run MLflow project
-6. Set up Git LFS (Large File Storage)
-7. Save `mlruns` to the repository
-8. Upload to Google Drive
+- **Workflow Name**: CI  
+- **Workflow File**: [main.yml](https://github.com/Maoelan/mlflow-credit-scoring/blob/main/.github/workflows/main.yml)  
+- **Trigger Events**:  
+  - `push`  
+  - `pull_request`  
+- **Job Environment**: Ubuntu
 
 ---
 
-### Google Drive Link:
-[Google Drive Folder](https://drive.google.com/drive/folders/1WVe4u-XA6lj2oodR4_XX25wE0COsDxs4?usp=sharing)
+## Workflow Steps
+
+1. **Set up Python 3.12.7**  
+   Configure Python version for the project.
+
+2. **Check Environment Variables**  
+   Ensure all necessary environment variables are available.
+
+3. **Install Dependencies**  
+   Install all the required dependencies for the project.
+
+4. **Clean `mlruns` Directory**  
+   Remove any previous logs from the `mlruns` directory.
+
+5. **Run MLflow Project**  
+   Execute the MLflow project with the necessary configurations.
+
+6. **Set up Git LFS (Large File Storage)**  
+   Initialize Git LFS for handling large files.
+
+7. **Save `mlruns` to Repository**  
+   Save the MLflow logs and artifacts back into the repository.
+
+8. **Upload `mlruns` to Google Drive**  
+   Upload the resulting `mlruns` folder to Google Drive for storage.
+
+---
+
+## Google Drive Output
+
+📁 [Google Drive Folder](https://drive.google.com/drive/folders/1WVe4u-XA6lj2oodR4_XX25wE0COsDxs4?usp=sharing)
+
+---
 
 ## Fixing Git Push Error (403 - Permission Denied)
 
-If your workflow build fails due to a 403 error (permission denied), follow these steps to resolve the issue:
+If your workflow fails due to a 403 permission error when pushing to GitHub, follow these steps:
 
-1. **Update your `main.yaml` workflow file** to use a token for pushing changes:
+1. **Update your `main.yml` Workflow to Use the GitHub Token**:
+
+    Add the following to use the GitHub token for pushing changes:
 
     ```yaml
     git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
     ```
 
-2. **Add the following permissions** in your `main.yaml` file to grant the necessary access:
+2. **Set Permissions in `main.yml`**:
+
+    Ensure the following permissions are included for the necessary access:
 
     ```yaml
     permissions:
@@ -42,27 +67,60 @@ If your workflow build fails due to a 403 error (permission denied), follow thes
       actions: read
     ```
 
-This should resolve the permission denial during the Git push process.
+---
 
-## Fixing Failed Upload to Google Drive
+## Fixing Google Drive Upload Failures
 
-If you encounter issues uploading files to Google Drive, ensure the following:
+If you encounter issues uploading to Google Drive, follow these steps:
 
-1. **Set proper permissions for the Google Drive folder**:
-   - Make sure that the Google Drive folder is shared with the service account or your user as an **Editor**.
-   - This will allow the script to upload files properly.
+1. **Check Google Drive Folder Permissions**:  
+   Ensure that the Google Drive folder is shared with the service account or user as an **Editor**.
 
-2. **Check the Google Drive API**:
-   - Ensure that your Google Drive API is enabled for the project.
-   - Ensure the credentials are correctly configured.
+2. **Verify Google Drive API Settings**:  
+   Make sure the Google Drive API is enabled for your Google Cloud project and that the credentials are correctly configured.
 
-3. **Verify Folder ID**:
-   - Double-check the `GDRIVE_FOLDER_ID` environment variable to ensure it's correct and refers to the proper folder.
-   - Ensure that the folder ID is not malformed or missing.
-
-Once these steps are applied, your CI workflow should be able to push to GitHub and upload files to Google Drive successfully.
+3. **Verify Folder ID**:  
+   Double-check the `GDRIVE_FOLDER_ID` environment variable to ensure it's correct and points to the right folder.
 
 ---
 
-### Important Notes:
-- **DON'T FORGET TO CHANGE THE PERMISSIONS ON THE GOOGLE DRIVE FOLDER TO ALLOW THE SERVICE ACCOUNT OR USER TO HAVE EDITOR ACCESS.**
+## Serve the Model via REST API
+
+To serve the model as a REST API, use the following command:
+
+```bash
+mlflow models serve -m "models:/serve-model/3" --port 5002 --no-conda
+```
+
+This will expose the model on port `5002` for HTTP requests.
+
+---
+
+## Prediction via cURL
+
+### 1. Check if the Server is Running:
+
+To check if the server is running, use the following `curl` command to perform a health check:
+
+```bash
+curl.exe -I http://127.0.0.1:5002/health
+```
+
+### 2. Send Prediction Request with JSON Input:
+
+To send a prediction request, use the following `curl` command with your input data:
+
+```bash
+curl.exe -X POST http://127.0.0.1:5002/invocations -H "Content-Type: application/json" --data-binary "@input.json"
+```
+
+Make sure `input.json` contains the necessary data for the prediction.
+
+---
+
+## Important Notes
+
+- ✅ Make sure the Google Drive folder is shared with your service account or user as an Editor  
+- 🔑 Use the correct Google Drive API credentials and enable the API in your Google Cloud Console  
+- 📁 Double-check your GDRIVE_FOLDER_ID and ensure it’s valid  
+- 🚀 Ensure the MLflow model server is running locally before sending prediction requests
