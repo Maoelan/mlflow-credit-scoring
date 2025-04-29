@@ -118,6 +118,18 @@ Make sure `input.json` contains the necessary data for the prediction.
 
 ---
 
+## Prediction via Streamlit
+
+To use Streamlit for predictions, run the following command:
+
+```bash
+streamlit run streamlit_app.py
+```
+
+Then, input the necessary data in the Streamlit for prediction.
+
+---
+
 ## Important Notes
 
 - ✅ Make sure the Google Drive folder is shared with your service account or user as an Editor  
