@@ -65,8 +65,7 @@ def data_preprocessing(data):
     df["Credit_Mix"] = encoder_Credit_Mix.transform(data["Credit_Mix"])[0]
     df["Payment_of_Min_Amount"] = encoder_Payment_of_Min_Amount.transform(data["Payment_of_Min_Amount"])
     df["Payment_Behaviour"] = encoder_Payment_Behaviour.transform(data["Payment_Behaviour"])
-    
-    # PCA 1
+
     data["Num_Bank_Accounts"] = scaler_Num_Bank_Accounts.transform(np.asarray(data["Num_Bank_Accounts"]).reshape(-1,1))[0]
     data["Num_Credit_Card"] = scaler_Num_Credit_Card.transform(np.asarray(data["Num_Credit_Card"]).reshape(-1,1))[0]
     data["Interest_Rate"] = scaler_Interest_Rate.transform(np.asarray(data["Interest_Rate"]).reshape(-1,1))[0]
@@ -80,7 +79,6 @@ def data_preprocessing(data):
     
     df[["pc1_1", "pc1_2", "pc1_3", "pc1_4", "pc1_5"]] = pca_1.transform(data[pca_numerical_columns_1])
     
-    # PCA 2
     data["Monthly_Inhand_Salary"] = scaler_Monthly_Inhand_Salary.transform(np.asarray(data["Monthly_Inhand_Salary"]).reshape(-1,1))[0]
     data["Monthly_Balance"] = scaler_Monthly_Balance.transform(np.asarray(data["Monthly_Balance"]).reshape(-1,1))[0]
     data["Amount_invested_monthly"] = scaler_Amount_invested_monthly.transform(np.asarray(data["Amount_invested_monthly"]).reshape(-1,1))[0]
@@ -99,7 +97,6 @@ def prediction(data):
     Returns:
         str: Prediction result (Good, Standard, or Poor)
     """
-    # Inference dari model
     with open("model.pkl", "rb") as f:
         model = pickle.load(f)
 
