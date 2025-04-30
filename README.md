@@ -96,11 +96,23 @@ This will expose the model on port `5002` for HTTP requests.
 
 ---
 
+## Serve the Model via REST API
+
+To serve the model as a REST API, use the following command:
+
+```bash
+mlflow models serve -m "models:/serve-model/3" --port 5002 --no-conda
+```
+
+This will expose the model on port 5002 for HTTP requests.
+
+---
+
 ## Prediction via cURL
 
 ### 1. Check if the Server is Running:
 
-To check if the server is running, use the following `curl` command to perform a health check:
+To check if the server is running, use the following curl command to perform a health check:
 
 ```bash
 curl.exe -I http://127.0.0.1:5002/health
@@ -108,7 +120,7 @@ curl.exe -I http://127.0.0.1:5002/health
 
 ### 2. Send Prediction Request with JSON Input:
 
-To send a prediction request, use the following `curl` command with your input data:
+To send a prediction request, use the following curl command with your input data:
 
 ```bash
 curl.exe -X POST http://127.0.0.1:5002/invocations -H "Content-Type: application/json" --data-binary "@input.json"
@@ -126,7 +138,67 @@ To use Streamlit for predictions, run the following command:
 streamlit run streamlit_app.py
 ```
 
-Then, input the necessary data in the Streamlit for prediction.
+Then, input the necessary data in the Streamlit app for prediction.
+
+---
+
+## Create Dockerfile for the Model
+
+To generate a Dockerfile for the model, use the following command:
+
+```bash
+mlflow models generate-dockerfile -m "models:/serve-model/3" --output-directory credit_scoring_docker
+```
+
+Alternatively, you can generate the Dockerfile from a local model:
+
+```bash
+mlflow models generate-dockerfile -m "file:mlartifacts/910278127322372584/eedc1b064fa446b6b8d04b6177f7f266/artifacts/model" --output-directory credit_scoring_docker
+```
+
+---
+
+## Build and Run Docker Container
+
+To build the Docker image, use the following command:
+
+```bash
+docker build -t testing:v1 .
+```
+
+Then, run the Docker container with 2 GB of memory:
+
+```bash
+docker run --name="Credit-scoring" -p 5004:8080 --memory="2g" testing:v1
+```
+
+---
+
+## Create Docker Image from MLflow Model
+
+To create a Docker image for the model, use the following command:
+
+```bash
+mlflow models build-docker -m "models:/serve-model/1" --name "cc"
+```
+
+Alternatively, create a Docker image from a local model:
+
+```bash
+mlflow models build-docker -m "mlartifacts/910278127322372584/eedc1b064fa446b6b8d04b6177f7f266/artifacts/model" --name "cc"
+```
+
+---
+
+## Run Docker Container for Prediction
+
+To run the Docker container, use the following command:
+
+```bash
+docker run -p 5003:8080 cc
+```
+
+This will expose the model on port 5003 for HTTP requests.
 
 ---
 
