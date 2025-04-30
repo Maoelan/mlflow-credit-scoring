@@ -204,7 +204,8 @@ This will expose the model on port 5003 for HTTP requests.
 
 ## Important Notes
 
-- ✅ Make sure the Google Drive folder is shared with your service account or user as an Editor  
-- 🔑 Use the correct Google Drive API credentials and enable the API in your Google Cloud Console  
-- 📁 Double-check your GDRIVE_FOLDER_ID and ensure it’s valid  
-- 🚀 Ensure the MLflow model server is running locally before sending prediction requests
+- ✅ Make sure the Google Drive folder is shared with your service account or user as an Editor.
+- 🔑 Use the correct Google Drive API credentials and enable the API in your Google Cloud Console.
+- 📁 Double-check your GDRIVE_FOLDER_ID and ensure it’s valid.
+- 🚀 Ensure the MLflow model server is running locally before sending prediction requests.
+- 🐳 For Docker, make sure the version of dependencies running on Docker matches those in the conda.yaml and requirements.txt model artifacts to avoid conflicts.
